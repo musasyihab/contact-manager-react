@@ -1,15 +1,31 @@
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-const ErrorToast = ({ children }) => {
-  const { errorContainer, errorText, errorClose } = styles;
+class ErrorToast extends Component {
+  state = { visible: true };
 
-  return (
-    <View style={styles.errorContainer}>
-      <Text style={styles.errorText}>{children}</Text>
-      <Text style={styles.errorClose}>X</Text>
-    </View>
-  );
+  onDismissToast() {
+    this.setState({visible: !this.state.visible});
+  }
+
+  render(){
+    const { errorContainer, errorText, errorClose } = styles;
+
+    if(this.state.visible){
+      return (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{this.props.children}</Text>
+          <TouchableOpacity onPress={this.onDismissToast.bind(this)}>
+            <Text style={styles.errorClose}>X</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    } else {
+        return (
+          <View></View>
+        )
+    }
+  }
 };
 
 const styles = StyleSheet.create({

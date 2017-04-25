@@ -10,7 +10,7 @@ import {
   FORM_RESET
 } from './types';
 
-const IP_ADDRESS = 'http://192.168.110.189:3000'
+const IP_ADDRESS = 'http://localhost:3000'
 
 export const loadContact = () => {
   return (dispatch) => {
@@ -41,6 +41,9 @@ export const loadContact = () => {
     }).then(json => {
       console.log(json);
       loadContactSuccess(dispatch, json);
+    }).catch((error)=>{
+      console.log(error);
+      loadContactFail(dispatch);
     })
 
     /*

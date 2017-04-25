@@ -11,7 +11,7 @@ import expect from 'expect' // You can use any testing library
 const middlewares = [ thunk ]
 const mockStore = configureMockStore(middlewares)
 
-const IP_ADDRESS = 'http://192.168.110.189:3000';
+const IP_ADDRESS = 'http://localhost:3000';
 
 //jest.dontMock('Actions');
 
@@ -53,7 +53,7 @@ describe('Contact Actions asyncronous', () => {
       })
   })
 
-  it('creates LOAD_CONTACTS_FAIL when load contacts has been done', () => {
+  it('creates LOAD_CONTACTS_FAIL when load contacts has failed', () => {
     nock(IP_ADDRESS)
       .get('/contacts')
       .reply(404, {} )
