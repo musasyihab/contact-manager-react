@@ -1,0 +1,7 @@
+export const LOAD_CONTACTS_SUCCESS = 'load_contacts_success';
+export const LOAD_CONTACTS_FAIL = 'load_contacts_fail';
+export const CONTACT_UPDATE = 'contact_update';
+export const CONTACT_CREATE = 'contact_create';
+export const CONTACT_CREATE_SUCCESS = 'contact_create_success';
+export const CONTACT_EDIT = 'contact_edit';
+export const FORM_RESET = 'form_reset';
