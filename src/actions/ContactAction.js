@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Platform } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import {
@@ -8,6 +7,8 @@ import {
   CONTACT_CREATE_SUCCESS,
   CONTACT_UPDATE,
   CONTACT_EDIT,
+  CONTACT_ERROR,
+  CONTACT_LOADING,
   FORM_RESET
 } from './types';
 
@@ -88,6 +89,9 @@ export const contactCreate = ({ firstName, lastName, age }) => {
 
   return (dispatch) => {
 
+    contactLoading(dispatch, true);
+    contactError(dispatch, '');
+
     const host = IP_ADDRESS + '/contacts'
     const url = `${host}`
     let options = Object.assign({ method: 'post' }, null)
@@ -104,14 +108,21 @@ export const contactCreate = ({ firstName, lastName, age }) => {
     return fetch(url, options).then(resp => {
       let json = resp.json()
       if (resp.ok) {
-       return json;
+        return json;
       }
       return json.then(err => {
-        console.log(err);
+        contactLoading(dispatch, false);
+        contactError(dispatch, 'Failed to create contact');
       })
     }).then(json => {
       console.log(json);
-      createContactSuccess(dispatch, json);
+      if(json){
+        contactLoading(dispatch, false);
+        createContactSuccess(dispatch, json);
+      }
+    }).catch((error)=>{
+      contactLoading(dispatch, false);
+      contactError(dispatch, 'Failed to create contact');
     })
 
   };
@@ -121,6 +132,22 @@ const createContactSuccess = (dispatch, json) => {
   dispatch({
     type: CONTACT_CREATE_SUCCESS,
     payload: json
+  });
+
+};
+
+const contactError = (dispatch, error) => {
+  dispatch({
+    type: CONTACT_ERROR,
+    error: error
+  });
+
+};
+
+const contactLoading = (dispatch, loading) => {
+  dispatch({
+    type: CONTACT_LOADING,
+    loading: loading
   });
 
 };
@@ -143,6 +170,9 @@ export const contactEdit = ({ id, firstName, lastName, age }) => {
 
   return (dispatch) => {
 
+    contactLoading(dispatch, true);
+    contactError(dispatch, '');
+
     const host = IP_ADDRESS + '/contacts/'+id;
     const url = `${host}`
     let options = Object.assign({ method: 'put' }, null)
@@ -159,7 +189,12 @@ export const contactEdit = ({ id, firstName, lastName, age }) => {
     console.log(host);
     return fetch(url, options).then(resp => {
       if (resp.ok) {
+        contactLoading(dispatch, false);
         editContactSuccess(dispatch);
+        return;
+      } else {
+        contactLoading(dispatch, false);
+        contactError(dispatch, 'Failed to edit contact');
         return;
       }
       /*
@@ -169,6 +204,9 @@ export const contactEdit = ({ id, firstName, lastName, age }) => {
         //loadContactFail(dispatch);
       })
       */
+    }).catch((error)=>{
+      contactLoading(dispatch, false);
+      contactError(dispatch, 'Failed to edit contact');
     })
 
   };
@@ -177,6 +215,9 @@ export const contactEdit = ({ id, firstName, lastName, age }) => {
 export const contactDelete = ({ id }) => {
 
   return (dispatch) => {
+
+    contactLoading(dispatch, true);
+    contactError(dispatch, '');
 
     const host = IP_ADDRESS + '/contacts/'+id;
     const url = `${host}`
@@ -191,16 +232,17 @@ export const contactDelete = ({ id }) => {
       //let json = resp.json()
       if (resp.ok) {
         //loadContact();
+        contactLoading(dispatch, false);
         deleteContactSuccess(dispatch);
         return;
+      } else {
+        contactLoading(dispatch, false);
+        contactError(dispatch, 'Failed to delete contact');
+        return;
       }
-      /*
-      return json.then(err => {
-        console.log(err);
-        //resetForm();
-        //loadContactFail(dispatch);
-      })
-      */
+    }).catch((error)=>{
+      contactLoading(dispatch, false);
+      contactError(dispatch, 'Failed to delete contact');
     })
 
   };

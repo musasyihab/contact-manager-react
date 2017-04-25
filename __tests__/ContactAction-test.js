@@ -81,7 +81,33 @@ describe('Contact Actions asyncronous', () => {
       .reply(200, { body: {id: '123'} })
 
     const expectedActions = [
+      { type: types.CONTACT_LOADING, loading: true },
+      { type: types.CONTACT_ERROR, error: '' },
+      { type: types.CONTACT_LOADING, loading: false },
       { type: types.CONTACT_CREATE_SUCCESS, payload: { body: {id: '123'} } }
+    ]
+    const store = mockStore({ contacts: [] })
+
+    return store.dispatch(actions.contactCreate({ firstName: 'John', lastName: 'Doe', age: 21 }))
+      .then(() => { // return of async actions
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  it('get id when create contacts has failed', () => {
+    nock(IP_ADDRESS)
+      .post('/contacts', {
+        firstName: 'John',
+        lastName: 'Doe',
+        age: 21
+      })
+      .reply(404, {})
+
+    const expectedActions = [
+      { type: types.CONTACT_LOADING, loading: true },
+      { type: types.CONTACT_ERROR, error: '' },
+      { type: types.CONTACT_LOADING, loading: false },
+      { type: types.CONTACT_ERROR, error: 'Failed to create contact' }
     ]
     const store = mockStore({ contacts: [] })
 
@@ -101,7 +127,33 @@ describe('Contact Actions asyncronous', () => {
       .reply(200, {} )
 
     const expectedActions = [
+      { type: types.CONTACT_LOADING, loading: true },
+      { type: types.CONTACT_ERROR, error: '' },
+      { type: types.CONTACT_LOADING, loading: false },
       { type: types.CONTACT_CREATE_SUCCESS }
+    ]
+    const store = mockStore({ contacts: [] })
+
+    return store.dispatch(actions.contactEdit({ id: 123, firstName: 'John', lastName: 'Doe', age: 21 }))
+      .then(() => { // return of async actions
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  it('get response when update contacts has failed', () => {
+    nock(IP_ADDRESS)
+      .put('/contacts/123', {
+        firstName: 'John',
+        lastName: 'Doe',
+        age: 21
+      })
+      .reply(404, {} )
+
+    const expectedActions = [
+      { type: types.CONTACT_LOADING, loading: true },
+      { type: types.CONTACT_ERROR, error: '' },
+      { type: types.CONTACT_LOADING, loading: false },
+      { type: types.CONTACT_ERROR, error: 'Failed to edit contact' }
     ]
     const store = mockStore({ contacts: [] })
 
@@ -117,7 +169,29 @@ describe('Contact Actions asyncronous', () => {
       .reply(200, {} )
 
     const expectedActions = [
+      { type: types.CONTACT_LOADING, loading: true },
+      { type: types.CONTACT_ERROR, error: '' },
+      { type: types.CONTACT_LOADING, loading: false },
       { type: types.CONTACT_CREATE_SUCCESS }
+    ]
+    const store = mockStore({ contacts: [] })
+
+    return store.dispatch(actions.contactDelete({ id: 123 }))
+      .then(() => { // return of async actions
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  it('get response when delete contacts has failed', () => {
+    nock(IP_ADDRESS)
+      .delete('/contacts/123')
+      .reply(404, {} )
+
+    const expectedActions = [
+      { type: types.CONTACT_LOADING, loading: true },
+      { type: types.CONTACT_ERROR, error: '' },
+      { type: types.CONTACT_LOADING, loading: false },
+      { type: types.CONTACT_ERROR, error: 'Failed to delete contact' }
     ]
     const store = mockStore({ contacts: [] })
 

@@ -4,4 +4,6 @@ export const CONTACT_UPDATE = 'contact_update';
 export const CONTACT_CREATE = 'contact_create';
 export const CONTACT_CREATE_SUCCESS = 'contact_create_success';
 export const CONTACT_EDIT = 'contact_edit';
+export const CONTACT_ERROR = 'contact_error';
+export const CONTACT_LOADING = 'contact_loading';
 export const FORM_RESET = 'form_reset';

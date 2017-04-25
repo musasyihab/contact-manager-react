@@ -11,7 +11,9 @@ describe('ContactFormReducer', () => {
         firstName: '',
         lastName: '',
         age: '',
-        success: false
+        success: false,
+        error: '',
+        loading: false
       }
     )
   })
@@ -40,7 +42,9 @@ describe('ContactFormReducer', () => {
         firstName: '',
         lastName: '',
         age: '',
-        success: false
+        success: false,
+        error: '',
+        loading: false
       }
     )
   })
@@ -68,7 +72,35 @@ describe('ContactFormReducer', () => {
         firstName: '',
         lastName: '',
         age: '',
-        success: false
+        success: false,
+        error: '',
+        loading: false
+      }
+    )
+  })
+
+  it('should handle CONTACT_ERROR', () => {
+    expect(
+      reducer({"error":"Error Message"}, {
+        type: types.CONTACT_ERROR,
+        error: 'Error Message'
+      })
+    ).toEqual(
+      {
+        error: 'Error Message'
+      }
+    )
+  })
+
+  it('should handle CONTACT_LOADING', () => {
+    expect(
+      reducer({"loading":true}, {
+        type: types.CONTACT_LOADING,
+        loading: true
+      })
+    ).toEqual(
+      {
+        loading: true
       }
     )
   })
@@ -84,7 +116,9 @@ describe('ContactFormReducer', () => {
         firstName: '',
         lastName: '',
         age: '',
-        success: false
+        success: false,
+        error: '',
+        loading: false
       }
     )
   })
