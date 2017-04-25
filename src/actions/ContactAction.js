@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Platform } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import {
   LOAD_CONTACTS_SUCCESS,
@@ -10,7 +11,7 @@ import {
   FORM_RESET
 } from './types';
 
-const IP_ADDRESS = 'http://localhost:3000'
+const IP_ADDRESS = Platform.OS === 'android' ?  'http://10.0.2.2:3000' : 'http://localhost:3000';
 
 export const loadContact = () => {
   return (dispatch) => {
