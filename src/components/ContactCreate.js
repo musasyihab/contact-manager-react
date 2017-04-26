@@ -30,6 +30,10 @@ class ContactCreate extends Component {
           />
         </View>
       );
+    } else {
+      return (
+        <View></View>
+      )
     }
   }
 
@@ -70,7 +74,8 @@ class ContactCreate extends Component {
 const styles = StyleSheet.create({
   loading: {
     position: 'absolute',
-    zIndex: 10,
+    zIndex: 100,
+    elevation: 1,
     left: 0,
     top: 0,
     right: 0,

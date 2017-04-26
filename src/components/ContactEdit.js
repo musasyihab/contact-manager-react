@@ -18,7 +18,7 @@ class ContactEdit extends Component {
     const { id, firstName, lastName, age, success } = this.props;
     //console.log(firstName, lastName, age);
     this.props.contactEdit({ id, firstName, lastName, age }).then(()=>{
-      if(this.props.success){
+      if(this.props.error === ''){
         Actions.contactList({ type: 'reset' });
       }
     });
@@ -28,7 +28,7 @@ class ContactEdit extends Component {
     const { id } = this.props;
     //console.log(firstName, lastName, age);
     this.props.contactDelete({ id }).then(()=>{
-      if(this.props.success){
+      if(this.props.error === ''){
         Actions.contactList({ type: 'reset' });
       }
     });
@@ -44,6 +44,10 @@ class ContactEdit extends Component {
           />
         </View>
       );
+    } else {
+      return (
+        <View></View>
+      )
     }
   }
 
@@ -87,7 +91,8 @@ class ContactEdit extends Component {
 const styles = StyleSheet.create({
   loading: {
     position: 'absolute',
-    zIndex: 10,
+    zIndex: 100,
+    elevation: 1,
     left: 0,
     top: 0,
     right: 0,
