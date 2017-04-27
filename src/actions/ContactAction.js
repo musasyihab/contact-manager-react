@@ -25,24 +25,25 @@ export const loadContact = () => {
      'Content-Type': 'application/json',
      'dataType': 'json'
     }
-    console.log('call '+host);
+    console.log('loadContact() | call '+host);
 
     return fetch(url, options).then(resp => {
       let json = resp.json()
       if (resp.ok) {
        return json;
-      } else {
+     }/* else {
        loadContactFail(dispatch);
-      }
-      /*
+     }*/
       return json.then(err => {
         console.log(err);
         loadContactFail(dispatch);
       })
-      */
     }).then(json => {
-      console.log(json);
-      loadContactSuccess(dispatch, json);
+      if(json){
+        console.log('json');
+        console.log(json);
+        loadContactSuccess(dispatch, json);
+      }
     }).catch((error)=>{
       console.log(error);
       loadContactFail(dispatch);
@@ -65,7 +66,9 @@ const loadContactFail = (dispatch) => {
 };
 
 const loadContactSuccess = (dispatch, contacts) => {
-  dispatch({
+  console.log('ContactAction.js | loadContactSuccess');
+  console.log(contacts);
+  dispatch ({
     type: LOAD_CONTACTS_SUCCESS,
     payload: contacts
   });
@@ -118,7 +121,13 @@ export const contactCreate = ({ firstName, lastName, age }) => {
       console.log(json);
       if(json){
         contactLoading(dispatch, false);
-        createContactSuccess(dispatch, json);
+        let con = {
+          id: json.id,
+          firstName: firstName,
+          lastName: lastName,
+          age: age
+        }
+        createContactSuccess(dispatch);
       }
     }).catch((error)=>{
       contactLoading(dispatch, false);
@@ -128,10 +137,9 @@ export const contactCreate = ({ firstName, lastName, age }) => {
   };
 };
 
-const createContactSuccess = (dispatch, json) => {
+const createContactSuccess = (dispatch) => {
   dispatch({
-    type: CONTACT_CREATE_SUCCESS,
-    payload: json
+    type: CONTACT_CREATE_SUCCESS
   });
 
 };

@@ -29,7 +29,7 @@ describe('ContactReducer', () => {
     )
   })
 
-  it('should handle LOAD_CONTACTS_SUCCESS', () => {
+  it('should handle LOAD_CONTACTS_FAIL', () => {
     expect(
       reducer([], {
         type: types.LOAD_CONTACTS_FAIL

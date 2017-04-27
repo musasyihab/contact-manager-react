@@ -12,6 +12,7 @@ class ContactCreate extends Component {
     this.props.contactCreate({ firstName, lastName, age }).then(()=>{
       if(this.props.success){
         Actions.contactList({ type: 'reset' });
+        //Actions.pop();
       }
     });
   }
