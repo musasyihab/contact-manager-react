@@ -59,8 +59,7 @@ describe('Contact Actions asyncronous', () => {
       .reply(404, {} )
 
     const expectedActions = [
-      { type: types.LOAD_CONTACTS_FAIL },
-      { type: types.LOAD_CONTACTS_SUCCESS, payload: undefined }
+      { type: types.LOAD_CONTACTS_FAIL }
     ]
     const store = mockStore({ contacts: [] })
 
@@ -84,7 +83,7 @@ describe('Contact Actions asyncronous', () => {
       { type: types.CONTACT_LOADING, loading: true },
       { type: types.CONTACT_ERROR, error: '' },
       { type: types.CONTACT_LOADING, loading: false },
-      { type: types.CONTACT_CREATE_SUCCESS, payload: { body: {id: '123'} } }
+      { type: types.CONTACT_CREATE_SUCCESS }
     ]
     const store = mockStore({ contacts: [] })
 
